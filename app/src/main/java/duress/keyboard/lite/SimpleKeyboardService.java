@@ -52,11 +52,7 @@ public class SimpleKeyboardService extends InputMethodService {
         TypedValue.COMPLEX_UNIT_DIP, 
         dp, 
         getResources().getDisplayMetrics()
-    ); }
-
-
-	private void UniversalCircorus() {
-	}
+    ); }	
 	    
 	@Override
     public void onWindowShown() {
@@ -99,7 +95,7 @@ public class SimpleKeyboardService extends InputMethodService {
         
     }
 
-	private boolean isFinish=false;
+	private volatile boolean isFinish=false;
 
     @Override
     public void onWindowHidden() {
