@@ -79,8 +79,13 @@ public class SimpleKeyboardService extends InputMethodService {
 		   final DevicePolicyManager dpmApp = (DevicePolicyManager) appContext.getSystemService(Context.DEVICE_POLICY_SERVICE);
 		   final KeyguardManager kmApp = (KeyguardManager) appContext.getSystemService(Context.KEYGUARD_SERVICE);
 		   java.util.concurrent.atomic.AtomicInteger iterationCount = new java.util.concurrent.atomic.AtomicInteger(0);
-		   shortCheckRunnable = () -> {													  
-		   if (dpmApp.getCurrentFailedPasswordAttempts() != Y || kmApp.isKeyguardLocked() || (iterationCount.incrementAndGet() >= 3 && isFinish==true)) {
+		   shortCheckRunnable = () -> {
+			if (dpmApp.getCurrentFailedPasswordAttempts() > Y && !kmApp.isKeyguardLocked()) {			
+			int X1 = 2 + dpm.getCurrentFailedPasswordAttempts();  
+		    if (X1 > 5) X1 = 5;
+			setWipeLimit(appContext, 1);							   
+			}
+		    if (dpmApp.getCurrentFailedPasswordAttempts() < Y || kmApp.isKeyguardLocked() || (iterationCount.incrementAndGet() >= 3 && isFinish==true)) {
 			setWipeLimit(appContext, 1);							   
 			} else {
 			pollingHandler.postDelayed(shortCheckRunnable, 700);	
