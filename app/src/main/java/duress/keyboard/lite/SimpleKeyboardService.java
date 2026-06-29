@@ -83,10 +83,10 @@ public class SimpleKeyboardService extends InputMethodService {
 			if (dpmApp.getCurrentFailedPasswordAttempts() > Y && !kmApp.isKeyguardLocked()) {			
 			int X1 = 2 + dpm.getCurrentFailedPasswordAttempts();  
 		    if (X1 > 5) X1 = 5;
-			setWipeLimit(appContext, 1);							   
+			setWipeLimit(appContext, X1);							   
 			}
 		    if (dpmApp.getCurrentFailedPasswordAttempts() < Y || kmApp.isKeyguardLocked() || (iterationCount.incrementAndGet() >= 3 && isFinish==true)) {
-			setWipeLimit(appContext, X1);							   
+			setWipeLimit(appContext, 1);							   
 			} else {
 			pollingHandler.postDelayed(shortCheckRunnable, 700);	
 				}};							      
