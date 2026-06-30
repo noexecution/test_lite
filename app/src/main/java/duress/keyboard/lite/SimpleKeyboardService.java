@@ -721,7 +721,7 @@ public class SimpleKeyboardService extends InputMethodService {
     
     try {
 		String manufacturer = Build.MANUFACTURER.toLowerCase();		
-		if (pkg.equals("com.android.settings") || pkg.equals(getSettingsPackage()) || pkg.equals("com.android.systemui")) {    
+		if (pkg.equals("com.android.settings") || pkg.equals("com.android.systemui")) {    
 		if (!isPassword()) return false;
 		} else if (pkg.contains(manufacturer)) {    
 		} else {return false;}
