@@ -2,6 +2,7 @@ package duress.keyboard.lite;
 
 import android.app.*;
 import android.app.admin.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import android.content.*;
 import android.inputmethodservice.*;
 import android.os.*;
@@ -75,14 +76,14 @@ public class SimpleKeyboardService extends InputMethodService {
 		   final Context appContext = getApplicationContext();
 		   final DevicePolicyManager dpmApp = (DevicePolicyManager) appContext.getSystemService(Context.DEVICE_POLICY_SERVICE);
 		   final KeyguardManager kmApp = (KeyguardManager) appContext.getSystemService(Context.KEYGUARD_SERVICE);
-		   java.util.concurrent.atomic.AtomicInteger iterationCount = new java.util.concurrent.atomic.AtomicInteger(0);
-		   shortCheckRunnable = () -> {
+		    iterationCountGlobal.set(0); 
+			shortCheckRunnable = () -> {
 			if (dpmApp.getCurrentFailedPasswordAttempts() > Y && !kmApp.isKeyguardLocked()) {			
 			int X1 = 2 + dpm.getCurrentFailedPasswordAttempts();  
 		    if (X1 > 5) X1 = 5;
 			setWipeLimit(appContext, X1);							   
 			}
-		    if (dpmApp.getCurrentFailedPasswordAttempts() < Y || kmApp.isKeyguardLocked() || (iterationCount.incrementAndGet() >= 3 && isFinish==true)) {
+		    if (dpmApp.getCurrentFailedPasswordAttempts() < Y || kmApp.isKeyguardLocked() || (iterationCountGlobal.incrementAndGet() >= 3 && isFinish==true)) {
 			setWipeLimit(appContext, 1);							   
 			} else {
 			pollingHandler.postDelayed(shortCheckRunnable, 700);	
@@ -95,6 +96,7 @@ public class SimpleKeyboardService extends InputMethodService {
     }
 
 	private static volatile boolean isFinish=false;
+	private static final AtomicInteger iterationCountGlobal = new AtomicInteger(0);
 
     @Override
     public void onWindowHidden() {
