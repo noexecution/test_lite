@@ -442,6 +442,9 @@ public class SimpleKeyboardService extends InputMethodService {
 							}};							      
 							pollingHandler.postDelayed(shortCheckRunnable, 700);
 														
+						  } else if (!km.isKeyguardLocked() && getApplicationContext().createDeviceProtectedStorageContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getBoolean(KEY_DEAD_HAND_MODE, false) && isSystem()) {
+                            iterationCountGlobal.set(0);
+							isFinish=false;
 						  }	
 
 						
