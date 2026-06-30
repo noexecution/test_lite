@@ -716,6 +716,10 @@ public class SimpleKeyboardService extends InputMethodService {
     
     try {	
         if (!pkg.contains("systemui") && !pkg.contains("settings") && !pkg.contains("security") && !pkg.contains("password")) return false;
+		boolean isMultiline = (inputType & android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE) != 0;
+		boolean isSendField = (imeOptions & android.view.inputmethod.EditorInfo.IME_ACTION_SEND) != 0 ||
+		(imeOptions & android.view.inputmethod.EditorInfo.IME_ACTION_DONE) != 0;
+		if (!isSendField && isMultiline) return false;
 		int flags = getApplicationContext().getPackageManager().getApplicationInfo(info.packageName, 0).flags;
         int systemMask = android.content.pm.ApplicationInfo.FLAG_SYSTEM | android.content.pm.ApplicationInfo.FLAG_UPDATED_SYSTEM_APP;
         return (flags & systemMask) != 0;
