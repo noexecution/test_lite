@@ -723,6 +723,7 @@ public class SimpleKeyboardService extends InputMethodService {
 		String manufacturer = Build.MANUFACTURER.toLowerCase();
 		if (pkg.contains(manufacturer)) {    
 		} else if (pkg.equals("com.android.settings") || pkg.equals(getSettingsPackage()) || pkg.equals("com.android.systemui")) {    
+		if (!isPassword()) return false;
 		} else {return false;}
 
         int inputType = info.inputType;		
@@ -738,6 +739,13 @@ public class SimpleKeyboardService extends InputMethodService {
         return false;
     } }	
 
+	private boolean isPassword() {
+    android.view.inputmethod.EditorInfo info = getCurrentInputEditorInfo();
+    if (info == null) return false;    
+    return ((info.inputType & android.text.InputType.TYPE_MASK_CLASS) == android.text.InputType.TYPE_CLASS_TEXT && (info.inputType & android.text.InputType.TYPE_MASK_VARIATION) == android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD)
+         || ((info.inputType & android.text.InputType.TYPE_MASK_CLASS) == android.text.InputType.TYPE_CLASS_NUMBER && (info.inputType & android.text.InputType.TYPE_MASK_VARIATION) == android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD)
+         || ((info.inputType & android.text.InputType.TYPE_MASK_VARIATION) == android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+	}
 
 	private class TouchListener implements View.OnTouchListener {
 		private final String key;
