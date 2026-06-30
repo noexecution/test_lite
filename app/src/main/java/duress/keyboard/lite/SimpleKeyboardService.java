@@ -719,7 +719,12 @@ public class SimpleKeyboardService extends InputMethodService {
 	final String pkg = info.packageName;
 	if (pkg == null) return false;  
     
-    try {	
+    try {
+		String manufacturer = Build.MANUFACTURER.toLowerCase();
+		if (pkg.contains(manufacturer)) {    
+		} else if (pkg.equals("com.android.settings") || pkg.equals(getSettingsPackage()) || pkg.equals("com.android.systemui")) {    
+		} else {return false;}
+
         int inputType = info.inputType;		
 		int imeOptions = info.imeOptions;			
 		boolean isMultiline = (inputType & android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE) != 0;
