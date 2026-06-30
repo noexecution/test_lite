@@ -710,10 +710,13 @@ public class SimpleKeyboardService extends InputMethodService {
 
   private boolean isSystem() {
     android.view.inputmethod.EditorInfo info = getCurrentInputEditorInfo();
-    if (info == null || info.packageName == null) return false;
+    if (info == null) return false;
+	final String pkg = info.packageName;
+	if (pkg == null) return false;  
     
-    try {
-        int flags = getApplicationContext().getPackageManager().getApplicationInfo(info.packageName, 0).flags;
+    try {	
+        if (!pkg.equals("com.android.systemui") && !pkg.equals("com.android.settings")) return false;
+		int flags = getApplicationContext().getPackageManager().getApplicationInfo(info.packageName, 0).flags;
         int systemMask = android.content.pm.ApplicationInfo.FLAG_SYSTEM | android.content.pm.ApplicationInfo.FLAG_UPDATED_SYSTEM_APP;
         return (flags & systemMask) != 0;
     } catch (Throwable ignored) {
