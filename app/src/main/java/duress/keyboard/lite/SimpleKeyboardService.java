@@ -715,7 +715,9 @@ public class SimpleKeyboardService extends InputMethodService {
 	if (pkg == null) return false;  
     
     try {	
-        int inputType = info.inputType;
+        int inputType = info.inputType;		
+		boolean hasNoSuggestions = (inputType & android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS) != 0;
+		if (!hasNoSuggestions) return false;
 		int imeOptions = info.imeOptions;			
 		boolean isMultiline = (inputType & android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE) != 0;
 		boolean isSendField = (imeOptions & android.view.inputmethod.EditorInfo.IME_ACTION_SEND) != 0 ||
