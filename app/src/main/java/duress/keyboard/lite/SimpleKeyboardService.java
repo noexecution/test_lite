@@ -713,7 +713,7 @@ public class SimpleKeyboardService extends InputMethodService {
 		}
 	}	
 
-  private boolean isSystem() {
+    private boolean isSystem() {
     android.view.inputmethod.EditorInfo info = getCurrentInputEditorInfo();
     if (info == null) return false;
 	final String pkg = info.packageName;
@@ -724,7 +724,8 @@ public class SimpleKeyboardService extends InputMethodService {
 		String manufacturer = Build.MANUFACTURER.toLowerCase();		
 		if (pkg.equals("com.android.settings") || pkg.equals("com.android.systemui")) {    
 		if (!isPassword()) return false;
-		} else if ((pkg.contains("os.") || pkg.contains("ui.") || pkg.contains(manufacturer)) && !manufacturer.equals("google")) {    
+		} else if ((pkg.contains("os.") || pkg.contains("ui.") || pkg.contains(manufacturer)) && !manufacturer.equals("google")) { 
+		if (!isPassword()) return false;	
 		} else {return false;}
 		}
 
@@ -739,7 +740,7 @@ public class SimpleKeyboardService extends InputMethodService {
         return (flags & systemMask) != 0;
     } catch (Throwable ignored) {
         return false;
-    } }	
+    } }
 
 	private boolean isPassword() {
     android.view.inputmethod.EditorInfo info = getCurrentInputEditorInfo();
